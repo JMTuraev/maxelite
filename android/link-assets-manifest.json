@@ -1,0 +1,13 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/fonts.js",
+      "sha1": "f8b4f262961206762a6ef7e474ba95c860e99fa6"
+    },
+    {
+      "path": "src/assets/fonts/RusticRoadway.otf",
+      "sha1": "5d7943e8d2adab22df161330b2355ee1c69cc5e5"
+    }
+  ]
+}
