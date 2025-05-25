@@ -14,9 +14,8 @@ export default function DiscoverScreen() {
     
       <Header
         title="Discover"
-        leftIcon={<Icon name="chevron-left" color="#EEDABC" size={26} />}
         onLeftPress={() => {/* back yoki boshqa action */}}
-        rightIcon={<Icon name="bell" color="#EEDABC" size={24} />}
+        
         onRightPress={() => {/* notification action */}}
       />
           <View style={styles.container}>

@@ -1,20 +1,28 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Platform, StatusBar } from 'react-native';
-import colors from '../theme/colors'; // global ranglar
-import fonts from '../theme/fonts';   // global shriftlar
+import { View, StyleSheet, TouchableOpacity, Platform, StatusBar } from 'react-native';
+import colors from '../assets/colors/colors';
+import fonts from '../assets/fonts/fonts'; 
+import GradientText from '../components/GradientText';
+import CoinsBadge from '../components/CoinsBadge';
+
+const HEADER_HEIGHT = 56;
 
 export default function Header({
-  title,
+  title = "Discover",
   leftIcon,
   onLeftPress,
   rightIcon,
   onRightPress,
+  coins = 0, // Props orqali coin sonini yuboramiz
   style,
   children,
 }) {
   return (
-    <View style={[styles.header, style]}>
-      {/* StatusBar balandligi uchun universal */}
+    <View style={[
+      styles.header,
+      style,
+      { height: HEADER_HEIGHT + (Platform.OS === 'android' ? (StatusBar.currentHeight || 0) : 0) }
+    ]}>
       <View style={styles.statusBarSpacer} />
       <View style={styles.row}>
         <TouchableOpacity
@@ -24,14 +32,20 @@ export default function Header({
         >
           {leftIcon}
         </TouchableOpacity>
-        <Text style={styles.title}>{title}</Text>
-        <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={onRightPress}
-          style={styles.iconWrap}
-        >
+        <View style={styles.titleWrap}>
+          <GradientText
+            text={title}
+            style={styles.title}
+            colors={['#EEDABC', '#987952']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+          />
+        </View>
+        <View style={styles.rightWrap}>
           {rightIcon}
-        </TouchableOpacity>
+          {/* Ung tomonga CoinsBadge */}
+          <CoinsBadge amount={coins} />
+        </View>
       </View>
       {children}
     </View>
@@ -40,10 +54,8 @@ export default function Header({
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: colors.headerBg, // #08080A
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 16,
-    paddingHorizontal: 20,
-    paddingBottom: 10,
+    backgroundColor: colors.headerBg,
+    paddingHorizontal: 8,
     borderBottomWidth: 0.5,
     borderBottomColor: 'rgba(255,255,255,0.07)',
     zIndex: 2,
@@ -54,19 +66,32 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    minHeight: 48,
+    height: HEADER_HEIGHT,
+    flex: 1,
   },
   iconWrap: {
     width: 36,
     alignItems: 'center',
     justifyContent: 'center',
+    height: HEADER_HEIGHT,
+  },
+  titleWrap: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  rightWrap: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8, // agar RN versiyangizda gap ishlamasa, marginLeft berib chiqiladi
   },
   title: {
-    flex: 1,
-    textAlign: 'center',
-    color: colors.primaryText,
-    fontFamily: fonts.regular,  // Times New Roman
-    fontSize: 35,               // Figma bo‘yicha
-    letterSpacing: 0,           // Figma bo‘yicha
+    textAlign: 'left',
+    fontFamily: fonts.regular,
+    fontSize: 32,
+    letterSpacing: 0,
+    lineHeight: 36,
+    includeFontPadding: false,
+    textAlignVertical: 'center',
   },
 });
